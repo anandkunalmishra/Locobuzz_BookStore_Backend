@@ -19,4 +19,12 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Enitty\" />
+    <None Remove="Context\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Enitty\" />
+    <Folder Include="Context\" />
+  </ItemGroup>
 </Project>
