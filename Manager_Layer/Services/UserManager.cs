@@ -21,7 +21,10 @@ namespace Manager_Layer.Services
 		{
 			return await user.LoginUser(model);
 		}
-
+        public async Task<string> ForgetPassword(ForgetPassModel model)
+		{
+			return await user.ForgetPassword(model);
+		}
     }
 }
 

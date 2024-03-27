@@ -102,9 +102,25 @@ namespace Repository_Layer.Services
                 throw;
             }
         }
+        public async Task<string> ForgetPassword(ForgetPassModel model)
+        {
+            try
+            {
+                var user = await context.UserTable.FirstOrDefaultAsync(x => x.Email_Id == model.Email_Id);
+                if (user != null)
+                {
+                    var token = GenerateToken(user);
+                    return token;
+                }
+                throw new Exception($"User with email_Id{model.Email_Id} does not exist");
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
-        
-		
-	}
+
+    }
 }
 

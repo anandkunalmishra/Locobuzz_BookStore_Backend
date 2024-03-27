@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Manager_Layer.Interfaces;
 using Manager_Layer.Services;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -33,6 +34,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
 });
+
+builder.Services.AddMassTransit(x =>
+{
+    x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(config =>
+    {
+        config.UseHealthCheck(provider);
+        config.Host(new Uri("rabbitmq://localhost"), h =>
+        {
+            h.Username("guest");
+            h.Password("guest");
+        });
+    }));
+});
+builder.Services.AddMassTransitHostedService();
 
 var app = builder.Build();
 
