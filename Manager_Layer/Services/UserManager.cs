@@ -17,6 +17,10 @@ namespace Manager_Layer.Services
 		{
 			return await user.RegisterUser(model);
 		}
+        public async Task<string> LoginUser(LoginModel model)
+		{
+			return await user.LoginUser(model);
+		}
 
     }
 }

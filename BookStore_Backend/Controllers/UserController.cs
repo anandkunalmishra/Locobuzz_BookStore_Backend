@@ -41,7 +41,29 @@ namespace BookStore_Backend.Controllers
                 return BadRequest(new ResModel<UserEntity> { Success = false, Message = ex.Message, Data = null });
             }
         }
-        
+
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> LoginUser(LoginModel model)
+        {
+            try
+            {
+                var response = await userManager.LoginUser(model);
+                if (response != null)
+                {
+                    return Ok(new ResModel<string> { Success = true, Message = "User login successfu", Data = response });
+                }
+                else
+                {
+                    return BadRequest(new ResModel<string> { Success = false, Message = "User login unsuccessful", Data = null });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResModel<string> { Success = false, Message = ex.Message, Data = null });
+            }
+        }
+
     }
 }
 

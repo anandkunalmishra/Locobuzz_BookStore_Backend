@@ -7,7 +7,7 @@ namespace Repository_Layer.Interfaces
 	public interface IUserRepository
 	{
         Task<UserEntity> RegisterUser(RegisterModel model);
-
+        Task<string> LoginUser(LoginModel model);
     }
 }
 

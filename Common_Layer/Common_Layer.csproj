@@ -10,11 +10,13 @@
     <None Remove="Request_Model\" />
     <None Remove="Response_Model\" />
     <None Remove="Encrypt\" />
+    <None Remove="Utility\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Request_Model\" />
     <Folder Include="Response_Model\" />
     <Folder Include="Encrypt\" />
+    <Folder Include="Utility\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
