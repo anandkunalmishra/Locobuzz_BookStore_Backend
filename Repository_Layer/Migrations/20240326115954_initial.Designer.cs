@@ -12,7 +12,7 @@ using Repository_Layer.Context;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(BookStoreContext))]
-    [Migration("20240326101819_initial")]
+    [Migration("20240326115954_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -46,6 +46,10 @@ namespace RepositoryLayer.Migrations
 
                     b.Property<long>("Mobile_Number")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");

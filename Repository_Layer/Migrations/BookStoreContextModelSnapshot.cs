@@ -44,6 +44,10 @@ namespace RepositoryLayer.Migrations
                     b.Property<long>("Mobile_Number")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 

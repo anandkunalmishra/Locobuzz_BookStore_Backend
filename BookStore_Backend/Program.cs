@@ -1,5 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Manager_Layer.Interfaces;
+using Manager_Layer.Services;
+using Microsoft.EntityFrameworkCore;
 using Repository_Layer.Context;
+using Repository_Layer.Interfaces;
+using Repository_Layer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +14,9 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<BookStoreContext>(x => x.UseSqlServer(builder.Configuration["ConnectionStrings:dbConnection"]));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<IUserManager,UserManager>();
+builder.Services.AddTransient<IUserRepository,UserRepository>();
 
 var app = builder.Build();
 
