@@ -3,10 +3,11 @@ using Common_Layer.Request_Model;
 using Microsoft.EntityFrameworkCore;
 using Repository_Layer.Context;
 using Repository_Layer.Enitty;
+using Repository_Layer.Interfaces;
 
 namespace Repository_Layer.Services
 {
-	public class BookRepository
+	public class BookRepository:IBookRepository
 	{
 		private readonly BookStoreContext context;
 		public BookRepository(BookStoreContext context)
@@ -30,6 +31,10 @@ namespace Repository_Layer.Services
 					book.Book_price = model.Book_price;
 					book.Book_quantity = model.Book_quantity;
 					book.Book_discountprice = model.Book_discountprice;
+
+					context.BookTable.Add(book);
+					context.SaveChangesAsync();
+					return book;
                 }
 				throw new Exception("User is not an Admin");
             }

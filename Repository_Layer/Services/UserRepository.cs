@@ -39,7 +39,7 @@ namespace Repository_Layer.Services
                 entity.Mobile_Number = model.Mobile_Number;
                 entity.CreatedAt = DateTime.Now;
                 entity.UpdatedAt = DateTime.Now;
-                entity.UserRole = "User";
+                entity.UserRole = model.UserRole;
 
                 //Trying the addition of the entity to the table
                 try

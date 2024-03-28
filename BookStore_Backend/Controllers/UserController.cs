@@ -14,7 +14,7 @@ namespace BookStore_Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : Controller
+    public class UserController : ControllerBase
     {
         private readonly IUserManager userManager;
         private readonly IBus bus;

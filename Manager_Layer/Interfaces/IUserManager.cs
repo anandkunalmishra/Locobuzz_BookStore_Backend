@@ -11,6 +11,7 @@ namespace Manager_Layer.Interfaces
         Task<string> ForgetPassword(ForgetPassModel model);
         Task<bool> ResetPassword(int userId, ResetPassModel model);
 
+
     }
 }
 

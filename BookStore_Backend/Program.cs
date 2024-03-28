@@ -21,6 +21,8 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddTransient<IUserManager,UserManager>();
 builder.Services.AddTransient<IUserRepository,UserRepository>();
+builder.Services.AddTransient<IBookManager, BookManager>();
+builder.Services.AddTransient<IBookRepository, BookRepository>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
     options.TokenValidationParameters = new TokenValidationParameters
