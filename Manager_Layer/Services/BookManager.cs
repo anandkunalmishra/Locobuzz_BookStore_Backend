@@ -26,6 +26,10 @@ namespace Manager_Layer.Services
 		{
 			return await book.UpdatePrice(UserId, BookId, Price);
 		}
+        public async Task<bool> UpdatediscountPrice(int UserId, int BookId, int DiscountPrice)
+		{
+			return await book.UpdatediscountPrice(UserId, BookId, DiscountPrice);
+		}
 
     }
 }
