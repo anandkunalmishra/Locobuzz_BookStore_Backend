@@ -46,6 +46,54 @@ namespace BookStore_Backend.Controllers
                 return BadRequest(new ResModel<BookEntity> { Success = false, Message = ex.Message,Data=null});
             }
         }
+
+        [HttpPut]
+        [Authorize]
+        [Route("updatebookdetails")]
+        public async Task<IActionResult> UpdateBook(int BookId,UpdateBookModel model)
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
+                var response = await manager.UpdateBook(userId, BookId,model);
+                if (response)
+                {
+                    return Ok(new ResModel<bool> { Success = true, Message = "Book Updated successfully", Data = true });
+                }
+                else
+                {
+                    return BadRequest(new ResModel<bool> { Success = false, Message = "Book Updation unsuccessful", Data = false });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResModel<bool> { Success = false, Message = ex.Message, Data = false });
+            }
+        }
+
+        [HttpPut]
+        [Authorize]
+        [Route("updatebookprice")]
+        public async Task<IActionResult> UpdateBookPrice(int BookId, int Price)
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
+                var response = await manager.UpdatePrice(userId, BookId, Price);
+                if (response)
+                {
+                    return Ok(new ResModel<bool> { Success = true, Message = "Book Price Updated successfully", Data = true });
+                }
+                else
+                {
+                    return BadRequest(new ResModel<bool> { Success = false, Message = "Book Price Updation unsuccessful", Data = false });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResModel<bool> { Success = false, Message = ex.Message, Data = false });
+            }
+        }
     }
 }
 

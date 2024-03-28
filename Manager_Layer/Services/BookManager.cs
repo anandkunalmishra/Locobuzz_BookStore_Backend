@@ -17,6 +17,15 @@ namespace Manager_Layer.Services
 		{
 			return await book.AddBook(UserId, model);
 		}
+        public async Task<bool> UpdateBook(int UserId, int BookId, UpdateBookModel model)
+		{
+			return await book.UpdateBook(UserId, BookId, model);
+		}
+
+        public async Task<bool> UpdatePrice(int UserId, int BookId, int Price)
+		{
+			return await book.UpdatePrice(UserId, BookId, Price);
+		}
 
     }
 }
