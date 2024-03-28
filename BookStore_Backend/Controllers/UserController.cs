@@ -18,7 +18,7 @@ namespace BookStore_Backend.Controllers
     {
         private readonly IUserManager userManager;
         private readonly IBus bus;
-        public UserController(IUserManager userManager,IBus bus)
+        public UserController(IUserManager userManager, IBus bus)
         {
             this.userManager = userManager;
             this.bus = bus;
@@ -37,10 +37,10 @@ namespace BookStore_Backend.Controllers
                 }
                 else
                 {
-                    return BadRequest(new ResModel<UserEntity> { Success = false , Message="User not registered",Data = null});
+                    return BadRequest(new ResModel<UserEntity> { Success = false, Message = "User not registered", Data = null });
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(new ResModel<UserEntity> { Success = false, Message = ex.Message, Data = null });
             }
@@ -93,6 +93,31 @@ namespace BookStore_Backend.Controllers
                 return BadRequest(new ResModel<bool> { Success = false, Message = ex.Message, Data = false });
             }
         }
+
+
+        [HttpPost]
+        [Route("resetpass")]
+        public async Task<IActionResult> ResetPassword(ResetPassModel model)
+        {
+            try
+            {
+                int userId = Convert.ToInt32(User.FindFirst("UserId").Value);
+                var response = await userManager.ResetPassword(userId,model);
+                if (response==true)
+                {  
+                    return Ok(new ResModel<bool> { Success = true, Message = "reset pass successfu", Data = true });
+                }
+                else
+                {
+                    return BadRequest(new ResModel<bool> { Success = false, Message = "reset pass unsuccessful", Data = false });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResModel<bool> { Success = false, Message = ex.Message, Data = false });
+            }
+        }
+
 
     }
 }

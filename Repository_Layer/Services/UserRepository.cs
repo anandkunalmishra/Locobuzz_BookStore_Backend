@@ -120,6 +120,29 @@ namespace Repository_Layer.Services
             }
         }
 
+        public async Task<bool> ResetPassword(int userId, ResetPassModel model)
+        {
+            var user = await context.UserTable.FirstOrDefaultAsync(a => a.UserId == userId);
+            if (user != null)
+            {
+                if (model.newPassword == model.confirmPassword)
+                {
+                    user.Password = objencrypt.generateHash(model.newPassword);
+                    user.UpdatedAt = DateTime.Now;
+                    context.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    throw new Exception("Password not matched!");
+                }
+            }
+            else
+            {
+                throw new Exception("User doesn't exist!");
+            }
+        }
+
 
     }
 }

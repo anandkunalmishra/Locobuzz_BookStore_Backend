@@ -25,6 +25,10 @@ namespace Manager_Layer.Services
 		{
 			return await user.ForgetPassword(model);
 		}
+        public async Task<bool> ResetPassword(int userId, ResetPassModel model)
+		{
+			return await user.ResetPassword(userId, model);
+		}
     }
 }
 

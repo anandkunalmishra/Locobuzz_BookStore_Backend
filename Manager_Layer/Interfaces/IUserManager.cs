@@ -9,6 +9,7 @@ namespace Manager_Layer.Interfaces
         Task<UserEntity> RegisterUser(RegisterModel model);
         Task<string> LoginUser(LoginModel model);
         Task<string> ForgetPassword(ForgetPassModel model);
+        Task<bool> ResetPassword(int userId, ResetPassModel model);
 
     }
 }
