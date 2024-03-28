@@ -1,4 +1,6 @@
 ﻿using System;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 using Common_Layer.Request_Model;
 using Microsoft.EntityFrameworkCore;
 using Repository_Layer.Context;
@@ -50,6 +52,7 @@ namespace Repository_Layer.Services
 			
 			
 		}
+
         public async Task<bool> UpdateBook(int UserId, int BookId,UpdateBookModel model)
         {
             var user = await context.UserTable.FirstOrDefaultAsync(x => x.UserId == UserId);
@@ -103,8 +106,6 @@ namespace Repository_Layer.Services
             throw new Exception("User doesn't exist");
         }
 
-
-
         public async Task<bool> UpdatediscountPrice(int UserId, int BookId, int DiscountPrice)
         {
             //this is better way to write the code if should handle one case ... 
@@ -138,6 +139,39 @@ namespace Repository_Layer.Services
             book.Book_discountprice = DiscountPrice;
             book.UpdatedAt = DateTime.Now;
             context.BookTable.Update(book);
+            await context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> UpdateImage(int UserId,int BookId,string imagepath)
+        {
+            var user = await context.UserTable.FirstOrDefaultAsync(x => x.UserId == UserId);
+            if (user == null)
+            {
+                throw new Exception("User doesn't exist");
+            }
+
+            if (user.UserRole != "Admin")
+            {
+                throw new Exception("User is not an Admin");
+            }
+
+            var book = await context.BookTable.FirstOrDefaultAsync(x => x.Book_Id == BookId);
+            if (book == null)
+            {
+                throw new Exception($"Book with Book id {BookId} doesn't exist");
+            }
+
+            Account account = new Account("diu0dzuph", "151566961183183", "kPNIAx62USDiH2zqIdQBmEt54t0");
+            Cloudinary cloudinary = new Cloudinary(account);
+            ImageUploadParams uploadParams = new ImageUploadParams
+            {
+                File = new FileDescription(imagepath),
+                PublicId = book.Book_Name
+            };
+            ImageUploadResult uploadResult = cloudinary.Upload(uploadParams);
+            book.Book_image = uploadResult.Url.ToString();
+            book.UpdatedAt = DateTime.Now;
             await context.SaveChangesAsync();
             return true;
         }
