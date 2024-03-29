@@ -190,6 +190,52 @@ namespace BookStore_Backend.Controllers
                 return BadRequest(new ResModel<bool> { Success = false, Message = ex.Message, Data = false });
             }
         }
+        [HttpGet]
+        [Authorize]
+        [Route("getAllBooks")]
+        public async Task<IActionResult> GetAllBooks()
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
+                var response = await manager.GetAllBook(userId);
+                if (response!=null)
+                {
+                    return Ok(new ResModel<List<BookEntity>> { Success = true, Message = "Book list display successfully", Data = response });
+                }
+                else
+                {
+                    return BadRequest(new ResModel<List<BookEntity>> { Success = false, Message = "Book list display unsuccessful", Data = null });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResModel<List<BookEntity>> { Success = false, Message = ex.Message, Data = null });
+            }
+        }
+
+        [HttpGet]
+        [Route("getAllBooksUnauth")]
+        public async Task<IActionResult> UnauthGetAllBooks()
+        {
+            try
+            {
+                var response = await manager.GetAllBook();
+                if (response != null)
+                {
+                    return Ok(new ResModel<List<BookEntity>> { Success = true, Message = "Book list display successfully", Data = response });
+                }
+                else
+                {
+                    return BadRequest(new ResModel<List<BookEntity>> { Success = false, Message = "Book list display unsuccessful", Data = null });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResModel<List<BookEntity>> { Success = false, Message = ex.Message, Data = null });
+            }
+        }
+
     }
 }
 

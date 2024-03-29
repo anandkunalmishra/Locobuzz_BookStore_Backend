@@ -42,6 +42,14 @@ namespace Manager_Layer.Services
 		{
 			return await book.DeleteBook(UserId, BookId);
 		}
+        public async Task<List<BookEntity>> GetAllBook(int UserId)
+		{
+			return await book.GetAllBook(UserId);
+		}
+		public async Task<List<BookEntity>> GetAllBook()
+		{
+			return await book.GetAllBook();
+		}
     }
 }
 

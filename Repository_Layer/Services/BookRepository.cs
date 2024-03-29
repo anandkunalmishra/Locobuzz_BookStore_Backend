@@ -229,6 +229,30 @@ namespace Repository_Layer.Services
             await context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<List<BookEntity>> GetAllBook(int UserId)
+        {
+            var user = await context.UserTable.FirstOrDefaultAsync(x=>x.UserId == UserId);
+            if (user == null)
+            {
+                throw new Exception("User doesn't exist");
+            }
+
+            if (user.UserRole != "Admin")
+            {
+                var listforUser = await context.BookTable.ToListAsync();
+                return listforUser;
+            }
+
+            var listforAdmin = await context.BookTable.Where(x => x.UserId == UserId).ToListAsync();
+            return listforAdmin;
+        }
+
+        public async Task<List<BookEntity>> GetAllBook()
+        {
+            var list = await context.BookTable.ToListAsync();
+            return list;
+        }
     }
 }
 
