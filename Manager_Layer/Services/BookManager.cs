@@ -38,7 +38,10 @@ namespace Manager_Layer.Services
 		{
 			return await book.UpdateQuantity(UserId, BookId, Quantity);
 		}
-
+        public async Task<bool> DeleteBook(int UserId, int BookId)
+		{
+			return await book.DeleteBook(UserId, BookId);
+		}
     }
 }
 

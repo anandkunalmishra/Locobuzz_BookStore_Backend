@@ -205,6 +205,30 @@ namespace Repository_Layer.Services
             await context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<bool> DeleteBook(int UserId, int BookId)
+        {
+            var user = await context.UserTable.FirstOrDefaultAsync(x => x.UserId == UserId);
+            if (user == null)
+            {
+                throw new Exception("User doesn't exist");
+            }
+
+            if (user.UserRole != "Admin")
+            {
+                throw new Exception("User is not an Admin");
+            }
+
+            var book = await context.BookTable.FirstOrDefaultAsync(x => x.Book_Id == BookId);
+            if (book == null)
+            {
+                throw new Exception($"Book with Book id {BookId} doesn't exist");
+            }
+
+            context.BookTable.Remove(book);
+            await context.SaveChangesAsync();
+            return true;
+        }
     }
 }
 

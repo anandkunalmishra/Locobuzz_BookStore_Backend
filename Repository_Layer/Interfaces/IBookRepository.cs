@@ -12,6 +12,7 @@ namespace Repository_Layer.Interfaces
         Task<bool> UpdatediscountPrice(int UserId, int BookId, int DiscountPrice);
         Task<bool> UpdateImage(int UserId, int BookId, string imagepath);
         Task<bool> UpdateQuantity(int UserId, int BookId, int Quantity);
+        Task<bool> DeleteBook(int UserId, int BookId);
     }
 }
 
