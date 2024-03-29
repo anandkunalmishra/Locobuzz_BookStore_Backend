@@ -34,6 +34,10 @@ namespace Manager_Layer.Services
 		{
 			return await book.UpdateImage(UserId, BookId, imagepath);
 		}
+        public async Task<bool> UpdateQuantity(int UserId, int BookId, int Quantity)
+		{
+			return await book.UpdateQuantity(UserId, BookId, Quantity);
+		}
 
     }
 }

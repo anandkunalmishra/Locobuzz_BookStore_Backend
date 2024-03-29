@@ -15,10 +15,10 @@ namespace BookStore_Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class BookControllers : ControllerBase
+    public class BookController : ControllerBase
     {
         private IBookManager manager;
-        public BookControllers(IBookManager manager)
+        public BookController(IBookManager manager)
         {
             this.manager = manager;
         }
@@ -135,6 +135,30 @@ namespace BookStore_Backend.Controllers
                 else
                 {
                     return BadRequest(new ResModel<bool> { Success = false, Message = "Image Updation unsuccessful", Data = false });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResModel<bool> { Success = false, Message = ex.Message, Data = false });
+            }
+        }
+
+        [HttpPut]
+        [Authorize]
+        [Route("updateQuantity")]
+        public async Task<IActionResult> UpdateQuantity(int BookId, int Quantity)
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
+                var response = await manager.UpdateQuantity(userId, BookId, Quantity);
+                if (response)
+                {
+                    return Ok(new ResModel<bool> { Success = true, Message = "Quantity Updated successfully", Data = true });
+                }
+                else
+                {
+                    return BadRequest(new ResModel<bool> { Success = false, Message = "Quantity Updation unsuccessful", Data = false });
                 }
             }
             catch (Exception ex)
