@@ -12,8 +12,8 @@ using Repository_Layer.Context;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(BookStoreContext))]
-    [Migration("20240330172009_cart3")]
-    partial class cart3
+    [Migration("20240330175456_wishlist")]
+    partial class wishlist
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -144,6 +144,29 @@ namespace RepositoryLayer.Migrations
                     b.ToTable("UserTable");
                 });
 
+            modelBuilder.Entity("Repository_Layer.Enitty.WishlistEntity", b =>
+                {
+                    b.Property<int>("Wishlist_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Wishlist_Id"));
+
+                    b.Property<int>("Book_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("userId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Wishlist_Id");
+
+                    b.HasIndex("Book_id");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("WishlistTable");
+                });
+
             modelBuilder.Entity("Repository_Layer.Enitty.BookEntity", b =>
                 {
                     b.HasOne("Repository_Layer.Enitty.UserEntity", "AddedBy")
@@ -172,6 +195,25 @@ namespace RepositoryLayer.Migrations
                     b.Navigation("AddedBy");
 
                     b.Navigation("AddedFor");
+                });
+
+            modelBuilder.Entity("Repository_Layer.Enitty.WishlistEntity", b =>
+                {
+                    b.HasOne("Repository_Layer.Enitty.UserEntity", "WishlistFor")
+                        .WithMany()
+                        .HasForeignKey("Book_id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Repository_Layer.Enitty.UserEntity", "WishlistBy")
+                        .WithMany()
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("WishlistBy");
+
+                    b.Navigation("WishlistFor");
                 });
 #pragma warning restore 612, 618
         }

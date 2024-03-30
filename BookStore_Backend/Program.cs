@@ -25,6 +25,8 @@ builder.Services.AddTransient<IBookManager, BookManager>();
 builder.Services.AddTransient<IBookRepository, BookRepository>();
 builder.Services.AddTransient<ICartManager, CartManager>();
 builder.Services.AddTransient<ICartRepository, CartRepository>();
+builder.Services.AddTransient<IWishlistManager, WishlistManager>();
+builder.Services.AddTransient<IWishlistRepository, WishlistRepository>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
     options.TokenValidationParameters = new TokenValidationParameters
