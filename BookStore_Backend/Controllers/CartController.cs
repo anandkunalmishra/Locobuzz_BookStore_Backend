@@ -82,6 +82,27 @@ namespace BookStore_Backend.Controllers
                 return BadRequest(new ResModel<bool> { Success = false, Message = ex.Message, Data = false });
             }
         }
+
+        [Authorize]
+        [HttpGet]
+        [Route("getAllItems")]
+        public async Task<IActionResult> GetAllItems()
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
+                var response = await manager.GetAllItems(userId);
+                if (response==null)
+                {
+                    return BadRequest(new ResModel<List<CartEntity>> { Success = false, Message = "Not able to display the items of cart", Data = null });
+                }
+                return Ok(new ResModel<List<CartEntity>> { Success = true, Message = "successfully displayed list of items of cart", Data = response });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResModel<List<CartEntity>> { Success = false, Message = ex.Message, Data = null });
+            }
+        }
     }
 }
 

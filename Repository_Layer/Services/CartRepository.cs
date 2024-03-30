@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Microsoft.EntityFrameworkCore;
 using Repository_Layer.Context;
 using Repository_Layer.Enitty;
@@ -32,6 +33,7 @@ namespace Repository_Layer.Services
 			{
 				bookInCart.Quantity++;
 				await context.SaveChangesAsync();
+				return bookInCart;
 			}
 
 			CartEntity entity = new CartEntity();
@@ -39,6 +41,7 @@ namespace Repository_Layer.Services
 			entity.Book_Id = BookId;
 			entity.AddedFor = book;
 			entity.AddedBy = user;
+			entity.Quantity = 1;
 
 			context.CartTable.Add(entity);
 			await context.SaveChangesAsync();
@@ -103,6 +106,18 @@ namespace Repository_Layer.Services
             await context.SaveChangesAsync();
             return true;
         }
+
+		public async Task<List<CartEntity>> GetAllItems(int UserId)
+		{
+            var user = await context.UserTable.FirstOrDefaultAsync(x => x.UserId == UserId);
+            if (user == null)
+            {
+                throw new Exception($"User with userId {UserId} does not exist");
+            }
+			var list = await context.CartTable.Where(x => x.UserId == UserId).ToListAsync();
+
+            return list;
+        } 
     }
 }
 
