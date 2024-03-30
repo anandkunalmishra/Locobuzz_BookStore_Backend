@@ -19,6 +19,6 @@ namespace Repository_Layer.Enitty
 		//User Role
 		public string UserRole { get; set; }
 
+		
 	}
 }
-
