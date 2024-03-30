@@ -61,6 +61,26 @@ namespace BookStore_Backend.Controllers
                 return BadRequest(new ResModel<bool> { Success = false, Message = ex.Message, Data = false });
             }
         }
+        [Authorize]
+        [HttpGet]
+        [Route("GetAllBookWishlist")]
+        public async Task<IActionResult> GetAllBookFromWishlist()
+        {
+            try
+            {
+                int userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
+                var response = await wishlistManager.GetAllBookFromWishlist(userId);
+                if (response != null)
+                {
+                    return Ok(new ResModel<List<WishlistEntity>> { Success = true, Message = "Display items present in wishlist Successfully!", Data = response });
+                }
+                return BadRequest(new ResModel<List<WishlistEntity>> { Success = false, Message = "Something went wrong", Data = null });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResModel<bool> { Success = false, Message = ex.Message, Data = false });
+            }
+        }
     }
 }
 

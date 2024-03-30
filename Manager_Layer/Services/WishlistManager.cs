@@ -20,6 +20,10 @@ namespace Manager_Layer.Services
 		{
 			return await wishlist.RemoveBookFromWishlist(userId, wishlistId);
 		}
+        public async Task<List<WishlistEntity>> GetAllBookFromWishlist(int userId)
+		{
+			return await wishlist.GetAllBookFromWishlist(userId);
+		}
     }
 }
 
