@@ -20,6 +20,10 @@ namespace Manager_Layer.Services
 		{
 			return await cart.RemoveBook(UserId, BookId);
 		}
+        public async Task<bool> Increase_Decrease(int UserId, int BookId, bool increase)
+		{
+			return await cart.Increase_Decrease(UserId, BookId, increase);
+		}
 
     }
 }

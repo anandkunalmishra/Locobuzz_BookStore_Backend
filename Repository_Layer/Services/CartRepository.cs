@@ -68,6 +68,41 @@ namespace Repository_Layer.Services
             await context.SaveChangesAsync();
             return true;
         }
+
+		public async Task<bool> Increase_Decrease(int UserId,int BookId,bool increase)
+		{
+            var user = await context.UserTable.FirstOrDefaultAsync(x => x.UserId == UserId);
+            if (user == null)
+            {
+                throw new Exception($"User with userId {UserId} does not exist");
+            }
+            var book = await context.BookTable.FirstOrDefaultAsync(x => x.Book_Id == BookId);
+            if (book == null)
+            {
+                throw new Exception($"Book with book id {BookId} does not exist");
+            }
+
+            var bookInCart = await context.CartTable.FirstOrDefaultAsync(x => x.Book_Id == BookId);
+            if (bookInCart == null)
+            {
+                throw new Exception("Book is not there in the cart");
+            }
+
+			if (increase)
+			{
+				bookInCart.Quantity++;
+			}
+			else
+			{
+				if (bookInCart.Quantity == 1)
+				{
+					throw new Exception("Use the remove option now as quantity is 1");
+				}
+				bookInCart.Quantity--;
+			}
+            await context.SaveChangesAsync();
+            return true;
+        }
     }
 }
 

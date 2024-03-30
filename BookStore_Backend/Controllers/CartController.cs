@@ -62,6 +62,26 @@ namespace BookStore_Backend.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPut]
+        [Route("changeQuantity")]
+        public async Task<IActionResult> ChangeQuantiy(int BookId,bool increase)
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
+                var response = await manager.Increase_Decrease(userId, BookId,increase);
+                if (response == false)
+                {
+                    return BadRequest(new ResModel<bool> { Success = false, Message = "Not able to change quantity", Data = false });
+                }
+                return Ok(new ResModel<bool> { Success = true, Message = "successfully changed quantity to the cart", Data = true });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResModel<bool> { Success = false, Message = ex.Message, Data = false });
+            }
+        }
     }
 }
 

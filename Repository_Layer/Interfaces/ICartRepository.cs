@@ -7,6 +7,7 @@ namespace Repository_Layer.Interfaces
 	{
         Task<CartEntity> AddToCart(int UserId, int BookId);
         Task<bool> RemoveBook(int UserId, int BookId);
+        Task<bool> Increase_Decrease(int UserId, int BookId, bool increase);
 
     }
 }
