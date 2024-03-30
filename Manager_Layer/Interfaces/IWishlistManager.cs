@@ -7,6 +7,8 @@ namespace Manager_Layer.Interfaces
 	{
         Task<WishlistEntity> AddToWishList(int userId, int bookId);
         Task<WishlistEntity> RemoveBookFromWishlist(int userId, int wishlistId);
+        Task<List<WishlistEntity>> GetAllBookFromWishlist(int userId);
     }
+
 }
 
