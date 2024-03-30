@@ -103,6 +103,40 @@ namespace BookStore_Backend.Controllers
                 return BadRequest(new ResModel<List<CartEntity>> { Success = false, Message = ex.Message, Data = null });
             }
         }
+
+        [Authorize]
+        [HttpGet]
+        [Route("getSubtotal")]
+        public async Task<IActionResult> GetSubtotalPrice()
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
+                var response = await manager.GetSubTotal(userId);
+                return Ok(new ResModel<int> { Success = true, Message = "successfully displayed subtoatal price of items of cart", Data = response });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResModel<int> { Success = false, Message = ex.Message, Data = 0 });
+            }
+        }
+
+        [Authorize]
+        [HttpPut]
+        [Route("purchase")]
+        public async Task<IActionResult> PurchaseItems(bool paymentdone)
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
+                var response = await manager.PurchaseItems(userId,paymentdone);
+                return Ok(new ResModel<bool> { Success = true, Message = "Order placed successfully", Data = response });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResModel<bool> { Success = false, Message = ex.Message, Data = false });
+            }
+        }
     }
 }
 

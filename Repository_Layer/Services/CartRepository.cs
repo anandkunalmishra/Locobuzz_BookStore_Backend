@@ -42,6 +42,8 @@ namespace Repository_Layer.Services
 			entity.AddedFor = book;
 			entity.AddedBy = user;
 			entity.Quantity = 1;
+			entity.isPurchaged = false;
+			entity.OrderAt = null;
 
 			context.CartTable.Add(entity);
 			await context.SaveChangesAsync();
@@ -114,10 +116,36 @@ namespace Repository_Layer.Services
             {
                 throw new Exception($"User with userId {UserId} does not exist");
             }
-			var list = await context.CartTable.Where(x => x.UserId == UserId).ToListAsync();
+			var list = await context.CartTable.Where(x => x.UserId == UserId && x.isPurchaged==false).ToListAsync();
 
-            return list;
-        } 
+			return list;
+        }
+
+		public async Task<int> GetSubTotal(int UserId)
+		{
+			var list = await GetAllItems(UserId);
+			int sum = 0;
+
+            foreach (var items in list)
+			{
+				sum += items.Quantity * items.AddedFor.Book_price;
+			}
+			return sum;
+		}
+
+		public async Task<bool> PurchaseItems(int UserId,bool paymentdone)
+		{
+			if (!paymentdone)
+			{
+				throw new Exception("Something went wrong!");
+			}
+			var list = await GetAllItems(UserId);
+			foreach(var items in list)
+			{
+				items.isPurchaged = true;
+			}
+			return true;
+		}
     }
 }
 

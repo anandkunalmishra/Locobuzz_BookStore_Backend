@@ -25,7 +25,9 @@ namespace Repository_Layer.Enitty
 
 		public int Quantity { get; set; }
 
-		
+		public bool isPurchaged { get; set; }
+
+		public DateTime? OrderAt { get; set; }
 	}
 }
 

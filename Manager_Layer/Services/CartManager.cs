@@ -28,6 +28,14 @@ namespace Manager_Layer.Services
 		{
 			return await cart.GetAllItems(UserId);
 		}
+        public async Task<bool> PurchaseItems(int UserId, bool paymentdone)
+		{
+			return await cart.PurchaseItems(UserId, paymentdone);
+		}
+        public async Task<int> GetSubTotal(int UserId)
+		{
+			return await cart.GetSubTotal(UserId);
+		}
     }
 }
 
