@@ -141,6 +141,29 @@ namespace RepositoryLayer.Migrations
                     b.ToTable("UserTable");
                 });
 
+            modelBuilder.Entity("Repository_Layer.Enitty.WishlistEntity", b =>
+                {
+                    b.Property<int>("Wishlist_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Wishlist_Id"));
+
+                    b.Property<int>("Book_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Wishlist_Id");
+
+                    b.HasIndex("Book_Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("WishlistTable");
+                });
+
             modelBuilder.Entity("Repository_Layer.Enitty.BookEntity", b =>
                 {
                     b.HasOne("Repository_Layer.Enitty.UserEntity", "AddedBy")
@@ -169,6 +192,25 @@ namespace RepositoryLayer.Migrations
                     b.Navigation("AddedBy");
 
                     b.Navigation("AddedFor");
+                });
+
+            modelBuilder.Entity("Repository_Layer.Enitty.WishlistEntity", b =>
+                {
+                    b.HasOne("Repository_Layer.Enitty.BookEntity", "WishlistFor")
+                        .WithMany()
+                        .HasForeignKey("Book_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Repository_Layer.Enitty.UserEntity", "WishlistBy")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("WishlistBy");
+
+                    b.Navigation("WishlistFor");
                 });
 #pragma warning restore 612, 618
         }
