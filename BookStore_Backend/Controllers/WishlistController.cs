@@ -20,6 +20,7 @@ namespace BookStore_Backend.Controllers
         {
             this.wishlistManager = wishlistManager;
         }
+
         [Authorize]
         [HttpPost]
         [Route("AddToWishList")]
@@ -34,6 +35,26 @@ namespace BookStore_Backend.Controllers
                     return Ok(new ResModel<WishlistEntity> { Success = true, Message = "Book Added to Wishlist!", Data = response });
                 }
                 return BadRequest(new ResModel<WishlistEntity> { Success = false, Message = "Book not Added to Wishlist", Data = null });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResModel<bool> { Success = false, Message = ex.Message, Data = false });
+            }
+        }
+        [Authorize]
+        [HttpDelete]
+        [Route("RemoveBookFromWishlist")]
+        public async Task<IActionResult> RemoveBookFromWishlist(int wishlistId)
+        {
+            try
+            {
+                int userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
+                var response = await wishlistManager.RemoveBookFromWishlist(userId, wishlistId);
+                if (response != null)
+                {
+                    return Ok(new ResModel<WishlistEntity> { Success = true, Message = "Book removed from Wishlist!", Data = response });
+                }
+                return BadRequest(new ResModel<WishlistEntity> { Success = false, Message = "Something went wrong", Data = null });
             }
             catch (Exception ex)
             {

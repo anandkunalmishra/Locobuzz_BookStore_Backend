@@ -46,6 +46,26 @@ namespace Repository_Layer.Services
             throw new Exception("Admin can't add items to wishlist!");
         }
 
+        public async Task<WishlistEntity> RemoveBookFromWishlist(int userId, int wishlistId)
+        {
+            var user = await context.UserTable.FirstOrDefaultAsync(a => a.UserId == userId);
+            if (user == null)
+            {
+                throw new Exception("User doesn't exist");
+            }
+            if (user.UserRole != "Admin")
+            {
+                var entity = await context.WishlistTable.FirstOrDefaultAsync(a => a.Wishlist_Id == wishlistId);
+                if (entity != null)
+                {
+                    context.WishlistTable.Remove(entity);
+                    await context.SaveChangesAsync();
+                    return entity;
+                }
+                throw new Exception("Book not exists in wishlist!");
+            }
+            throw new Exception("Admin can't remove items from wishlist!");
+        }
     }
 }
 
