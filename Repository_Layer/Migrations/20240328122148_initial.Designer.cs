@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository_Layer.Context;
 
@@ -11,9 +12,11 @@ using Repository_Layer.Context;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(BookStoreContext))]
-    partial class BookStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20240328122148_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,38 +74,6 @@ namespace RepositoryLayer.Migrations
                     b.ToTable("BookTable");
                 });
 
-            modelBuilder.Entity("Repository_Layer.Enitty.CartEntity", b =>
-                {
-                    b.Property<int>("CartId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartId"));
-
-                    b.Property<int>("Book_Id")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("OrderAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("isPurchaged")
-                        .HasColumnType("bit");
-
-                    b.HasKey("CartId");
-
-                    b.HasIndex("Book_Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("CartTable");
-                });
-
             modelBuilder.Entity("Repository_Layer.Enitty.UserEntity", b =>
                 {
                     b.Property<int>("UserId")
@@ -150,25 +121,6 @@ namespace RepositoryLayer.Migrations
                         .IsRequired();
 
                     b.Navigation("AddedBy");
-                });
-
-            modelBuilder.Entity("Repository_Layer.Enitty.CartEntity", b =>
-                {
-                    b.HasOne("Repository_Layer.Enitty.BookEntity", "AddedFor")
-                        .WithMany()
-                        .HasForeignKey("Book_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Repository_Layer.Enitty.UserEntity", "AddedBy")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AddedBy");
-
-                    b.Navigation("AddedFor");
                 });
 #pragma warning restore 612, 618
         }

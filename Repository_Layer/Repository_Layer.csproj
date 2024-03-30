@@ -18,13 +18,22 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0" />
+    <PackageReference Include="CloudinaryDotNet" Version="1.26.2" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Enitty\" />
     <None Remove="Context\" />
+    <None Remove="Services\" />
+    <None Remove="Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Enitty\" />
     <Folder Include="Context\" />
+    <Folder Include="Services\" />
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common_Layer\Common_Layer.csproj" />
   </ItemGroup>
 </Project>
