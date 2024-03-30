@@ -6,6 +6,7 @@ namespace Repository_Layer.Interfaces
 	public interface ICartRepository
 	{
         Task<CartEntity> AddToCart(int UserId, int BookId);
+        Task<bool> RemoveBook(int UserId, int BookId);
 
     }
 }

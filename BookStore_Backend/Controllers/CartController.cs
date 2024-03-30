@@ -20,6 +20,7 @@ namespace BookStore_Backend.Controllers
         {
             this.manager = manager;
         }
+
         [Authorize]
         [HttpPost]
         [Route("AddToCart")]
@@ -40,6 +41,27 @@ namespace BookStore_Backend.Controllers
                 return BadRequest(new ResModel<CartEntity> { Success = false, Message = ex.Message,Data=null });
             }
         }
+        [Authorize]
+        [HttpDelete]
+        [Route("remove")]
+        public async Task<IActionResult> RemoveFromCart(int BookId)
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
+                var response = await manager.RemoveBook(userId, BookId);
+                if (response==false)
+                {
+                    return BadRequest(new ResModel<bool> { Success = false, Message = "Not able to remove", Data = false });
+                }
+                return Ok(new ResModel<bool> { Success = true, Message = "successfully removed to the cart", Data = true });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResModel<bool> { Success = false, Message = ex.Message, Data = false });
+            }
+        }
+
     }
 }
 

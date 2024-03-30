@@ -40,11 +40,34 @@ namespace Repository_Layer.Services
 			entity.AddedFor = book;
 			entity.AddedBy = user;
 
-			await context.CartTable.AddAsync(entity);
+			context.CartTable.Add(entity);
 			await context.SaveChangesAsync();
 			return entity;
 		}
 
-	}
+		public async Task<bool> RemoveBook(int UserId,int BookId)
+		{
+            var user = await context.UserTable.FirstOrDefaultAsync(x => x.UserId == UserId);
+            if (user == null)
+            {
+                throw new Exception($"User with userId {UserId} does not exist");
+            }
+            var book = await context.BookTable.FirstOrDefaultAsync(x => x.Book_Id == BookId);
+            if (book == null)
+            {
+                throw new Exception($"Book with book id {BookId} does not exist");
+            }
+
+            var bookInCart = await context.CartTable.FirstOrDefaultAsync(x => x.Book_Id == BookId);
+			if (bookInCart == null)
+			{
+				throw new Exception("Book is not there in the cart");
+			}
+
+            context.CartTable.Remove(bookInCart);
+            await context.SaveChangesAsync();
+            return true;
+        }
+    }
 }
 

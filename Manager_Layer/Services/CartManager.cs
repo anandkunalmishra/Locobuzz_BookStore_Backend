@@ -16,6 +16,10 @@ namespace Manager_Layer.Services
 		{
 			return await cart.AddToCart(UserId, BookId);
 		}
+        public async Task<bool> RemoveBook(int UserId, int BookId)
+		{
+			return await cart.RemoveBook(UserId, BookId);
+		}
 
     }
 }
