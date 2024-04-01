@@ -116,7 +116,7 @@ namespace Repository_Layer.Services
             {
                 throw new Exception($"User with userId {UserId} does not exist");
             }
-			var list = await context.CartTable.Where(x => x.UserId == UserId && x.isPurchaged==false).ToListAsync();
+			var list = await context.CartTable.Include(cart => cart.AddedFor).Where(x => x.UserId == UserId && x.isPurchaged==false).ToListAsync();
 
 			return list;
         }
@@ -128,8 +128,19 @@ namespace Repository_Layer.Services
 
             foreach (var items in list)
 			{
-				sum += items.Quantity * items.AddedFor.Book_price;
-			}
+				if (items == null)
+				{
+					throw new Exception("error in items");
+				}
+				if (items.AddedFor == null)
+				{
+					throw new Exception("Error in added for");
+				}
+                if (items != null && items.AddedFor != null)
+                {
+                    sum += items.Quantity * items.AddedFor.Book_price;
+                }
+            }
 			return sum;
 		}
 
